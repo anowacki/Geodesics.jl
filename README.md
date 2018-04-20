@@ -1,5 +1,9 @@
 # Geodesics
 
+[![Build Status](https://travis-ci.org/anowacki/Geodesics.jl.svg?branch=master)](https://travis-ci.org/anowacki/Geodesics.jl)
+[![Build status](https://ci.appveyor.com/api/projects/status/dkoftilnbhhrrpcp?svg=true)](https://ci.appveyor.com/project/AndyNowacki/geodesics-jl)
+[![Coverage Status](https://coveralls.io/repos/github/anowacki/Geodesics.jl/badge.svg?branch=master)](https://coveralls.io/github/anowacki/Geodesics.jl?branch=master)
+
 Calculate geodesics (great circle paths) on a flattened sphere (ellipsoid of
 rotation), using Vincenty's [1] formulae.
 
