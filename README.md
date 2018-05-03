@@ -12,7 +12,7 @@ rotation), using Vincenty's [1] formulae.
 ### `Geodesics.forward`
 
 A standard forward Vincenty computation finds the end point on a flattened sphere,
-given a starting location at longitude-latitude `(lon,lat)`, a forward azimuth `az
+given a starting location at longitude-latitude `(lon,lat)`, a forward azimuth `az`
 and a distance `dist` travelled along the surface.  You also need to specify the
 semimajor (equatorial) radius of the ellipsoid `a` and the flattening `f`.
 
