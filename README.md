@@ -100,6 +100,11 @@ The full list of convenience functions:
 This package so far only implements Vincenty's methods, but others are available.
 Pull requests to add these are welcome.
 
+## Acknowledgments
+
+Adapted from the [GreatCircle.jl](https://github.com/acrosby/GreatCircle.jl)
+package, which in turn is a port of [pygc](https://github.com/axiom-data-science/pygc/).
+
 ## References
 
 Thaddeus Vincenty published the forward and inverse methods used in this package in
