@@ -2,6 +2,8 @@ __precompile__()
 
 module Geodesics
 
+using Compat
+
 "Earth ellipsoid semi-axes in WGS84"
 const EARTH_R_MAJOR_WGS84 = 6378137.0000
 const EARTH_R_MINOR_WGS84 = 6356752.3142
@@ -107,7 +109,7 @@ function forward(lon, lat, azimuth, distance, a, f)::Tuple{Float64,Float64,Float
 
     TanU1 = (1 - f)*tan(phi1)
     U1 = atan(TanU1)
-    sigma1 = atan2( TanU1, cos(alpha12) )
+    sigma1 = atan( TanU1, cos(alpha12) )
     Sinalpha = cos(U1)*sin(alpha12)
     cosalpha_sq = 1.0 - Sinalpha*Sinalpha
 
@@ -135,10 +137,10 @@ function forward(lon, lat, azimuth, distance, a, f)::Tuple{Float64,Float64,Float
         sigma = (s/(b*A)) + delta_sigma
     end
 
-    phi2 = atan2((sin(U1)*cos(sigma) + cos(U1)*sin(sigma)*cos(alpha12)),
+    phi2 = atan((sin(U1)*cos(sigma) + cos(U1)*sin(sigma)*cos(alpha12)),
         ((1-f)*sqrt(Sinalpha^2 + (sin(U1)*sin(sigma) - cos(U1)*cos(sigma)*cos(alpha12))^2)))
 
-    lambda = atan2((sin(sigma)*sin(alpha12)),
+    lambda = atan((sin(sigma)*sin(alpha12)),
         (cos(U1)*cos(sigma) - sin(U1)*sin(sigma)*cos(alpha12)))
 
     C = (f/16)*cosalpha_sq*(4 + f*(4 - 3*cosalpha_sq))
@@ -148,7 +150,7 @@ function forward(lon, lat, azimuth, distance, a, f)::Tuple{Float64,Float64,Float
 
     lambda2 = lambda1 + omega
 
-    alpha21 = atan2(Sinalpha, (-sin(U1)*sin(sigma) + cos(U1)*cos(sigma)*cos(alpha12)))
+    alpha21 = atan(Sinalpha, (-sin(U1)*sin(sigma) + cos(U1)*cos(sigma)*cos(alpha12)))
     alpha21 = mod(alpha21 + π, 2π)
 
     return lambda2, phi2, alpha21
@@ -205,7 +207,7 @@ function inverse(lon1, lat1, lon2, lat2, a, f)::Tuple{Float64,Float64,Float64}
                          ((cos(U1)*sin(U2) - sin(U1)*cos(U2)*cos(lambda)))^2
         Sin_sigma = sqrt(sqr_sin_sigma)
         Cos_sigma = sin(U1)*sin(U2) + cos(U1)*cos(U2)*cos(lambda)
-        sigma = atan2(Sin_sigma, Cos_sigma)
+        sigma = atan(Sin_sigma, Cos_sigma)
 
         Sin_alpha = cos(U1)*cos(U2)*sin(lambda)/sin(sigma)
 
@@ -231,8 +233,8 @@ function inverse(lon1, lat1, lon2, lat2, a, f)::Tuple{Float64,Float64,Float64}
         (B/6)*Cos2sigma_m*(-3 + 4*sqr_sin_sigma)*(-3 + 4*Cos2sigma_m^2)))
     s = b*A*(sigma - delta_sigma)
 
-    alpha12 = atan2((cos(U2)*sin(lambda)), ( cos(U1)*sin(U2) - sin(U1)*cos(U2)*cos(lambda)))
-    alpha21 = atan2((cos(U1)*sin(lambda)), (-sin(U1)*cos(U2) + cos(U1)*sin(U2)*cos(lambda)))
+    alpha12 = atan((cos(U2)*sin(lambda)), ( cos(U1)*sin(U2) - sin(U1)*cos(U2)*cos(lambda)))
+    alpha21 = atan((cos(U1)*sin(lambda)), (-sin(U1)*cos(U2) + cos(U1)*sin(U2)*cos(lambda)))
 
     alpha12 = mod(alpha12, 2π)
     alpha21 = mod(alpha21 + π, 2π)
