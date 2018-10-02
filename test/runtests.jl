@@ -1,5 +1,5 @@
 using Geodesics
-using Compat.Test
+using Test
 
 @testset "Forward" begin
     @test_throws ArgumentError Geodesics.forward(0, 2π, 0, 0, 1, 0)

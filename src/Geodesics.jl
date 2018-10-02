@@ -1,8 +1,4 @@
-__precompile__()
-
 module Geodesics
-
-using Compat
 
 "Earth ellipsoid semi-axes in WGS84"
 const EARTH_R_MAJOR_WGS84 = 6378137.0000
