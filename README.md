@@ -14,7 +14,7 @@ Geodesics is compatible with Julia version 0.7 upwards.  Install using:
 ```julia
 julia> import Pkg
 
-julia> Pkg.pkg"https://github.com/anowacki/Geodesics.jl"
+julia> Pkg.pkg"add https://github.com/anowacki/Geodesics.jl"
 ```
 
 (Geodesics versions below 0.2 install on Julia v0.6 upwards, using `Pkg.clone("https://github.com/anowacki/Geodesics.jl")`.)
