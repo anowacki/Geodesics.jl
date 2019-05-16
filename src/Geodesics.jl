@@ -30,7 +30,10 @@ flattened sphere.  The default flattening is $F_WGS84.  By default,
 input and output are in degrees, but specify `degrees` as `false` to use radians.
 Use `f=0` to perform computations on a sphere.
 """
-function azimuth(lon0, lat0, lon1, lat1, degrees::Bool=true; f=F_WGS84)
+function azimuth(lon0::T1, lat0::T2, lon1::T3, lat1::T4, degrees::Bool=true; f=F_WGS84) where {T1,T2,T3,T4}
+    # Promote to Float64 at least to avoid error when one of the points is on the pole
+    T = promote_type(Float64, T1, T2, T3, T4)
+    lon0, lat0, lon1, lat1 = T(lon0), T(lat0), T(lon1), T(lat1)
     if degrees
         lon0, lat0, lon1, lat1 = deg2rad(lon0), deg2rad(lat0), deg2rad(lon1), deg2rad(lat1)
     end

@@ -67,6 +67,18 @@ end
         @test Geodesics.azimuth(lon0, lat0, lon1, lat1, false) ≈
             Geodesics.inverse(lon0, lat0, lon1, lat1, 1, Geodesics.F_WGS84)[2] atol=atol
     end
+
+    # One point at pole
+    let lon0 = 0, lat0 = -90, lon1 = 0, lat1 = 0
+        for T in (Int16, Int32, Int64, Float16, Float32, Float64)
+            @test Geodesics.azimuth(T(lon0), T(lat0), T(lon1), T(lat1), true) == 0.0
+        end
+    end
+    let lon0 = 90, lat0 = 0, lon1 = 90, lat1 = 90
+        for T in (Int16, Int32, Int64, Float16, Float32, Float64)
+            @test Geodesics.azimuth(T(lon0), T(lat0), T(lon1), T(lat1), true) == 0.0
+        end
+    end
 end
 
 @testset "Ang step" begin
