@@ -54,7 +54,7 @@ perfectly spherical Earth, then we end up very slightly
 
 ### `Geodesics.inverse`
 
-A standard inverse Vinenty calculation finds the distance, azimuth and backazimuth
+A standard inverse Vincenty calculation finds the distance, azimuth and backazimuth
 between two known points on the ellipsoid, (`lon1,lat1`) and (`lon2,lat2`).  Again,
 we need to specify the semimajor radius and flattening.
 
