@@ -19,7 +19,7 @@ using Test
         lon1, lat1, baz = Geodesics.forward(lon0, lat0, azimuth, distance, a, f)
         @test lon1 == lon0
         @test lat1 == lat0
-        @test baz == azimuth
+        @test baz ≈ mod(azimuth + π, 2π)
     end
 end
 
