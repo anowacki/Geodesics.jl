@@ -1,7 +1,7 @@
 name = "Geodesics"
 uuid = "6aaf26a4-c633-11e8-35ae-8904cb805353"
 authors = ["Andy Nowacki <a.nowacki@leeds.ac.uk>"]
-version = "0.2.2"
+version = "0.2.3"
 
 [compat]
 julia = "0.7, 1"
