@@ -121,7 +121,7 @@ function forward(lon, lat, azimuth, distance, a, f)::Tuple{Float64,Float64,Float
 
     # Not moving anywhere. We can return the location that was passed in.
     if sigma == 0
-        return phi1, lambda1, alpha12
+        return lambda1, phi1, mod(alpha12 + π, 2π)
     end
 
     last_sigma = 2*sigma + 2 # something impossible

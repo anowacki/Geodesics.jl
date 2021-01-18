@@ -13,6 +13,14 @@ using Test
         @test lat1 ≈ 0.4719777676633856
         @test baz ≈ mod(-1.9047280216911358, 2π) atol=1e-6
     end
+
+    # Make sure if we don't move, we end up in the same place
+    let lon0 = 0.1, lat0 = 0.2, azimuth = 1, distance = 0, a = 1, f = 0
+        lon1, lat1, baz = Geodesics.forward(lon0, lat0, azimuth, distance, a, f)
+        @test lon1 == lon0
+        @test lat1 == lat0
+        @test baz ≈ mod(azimuth + π, 2π)
+    end
 end
 
 @testset "Inverse" begin
