@@ -1,15 +1,14 @@
 # Geodesics
 
-[![Build Status](https://travis-ci.org/anowacki/Geodesics.jl.svg?branch=master)](https://travis-ci.org/anowacki/Geodesics.jl)
-[![Build status](https://ci.appveyor.com/api/projects/status/dkoftilnbhhrrpcp?svg=true)](https://ci.appveyor.com/project/AndyNowacki/geodesics-jl)
-[![Coverage Status](https://coveralls.io/repos/github/anowacki/Geodesics.jl/badge.svg?branch=master)](https://coveralls.io/github/anowacki/Geodesics.jl?branch=master)
+[![Build Status](https://github.com/anowacki/Geodesics.jl/workflows/CI/badge.svg)](https://github.com/anowacki/Geodesics.jl/actions)
+[![codecov](https://codecov.io/gh/anowacki/Geodesics.jl/branch/master/graph/badge.svg?token=4XkpiFaFJN)](https://codecov.io/gh/anowacki/Geodesics.jl)
 
 Calculate geodesics (great circle paths) on a flattened sphere (ellipsoid of
 rotation), using Vincenty's [1] formulae.
 
 ## Install
 
-Geodesics is compatible with Julia version 0.7 upwards.  Install using:
+Geodesics is compatible with Julia version 1.0 upwards.  Install using:
 
 ```julia
 julia> import Pkg
@@ -17,7 +16,6 @@ julia> import Pkg
 julia> Pkg.pkg"add https://github.com/anowacki/Geodesics.jl"
 ```
 
-(Geodesics versions below 0.2 install on Julia v0.6 upwards, using `Pkg.clone("https://github.com/anowacki/Geodesics.jl")`.)
 
 ## Basic functions
 
