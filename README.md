@@ -3,6 +3,9 @@
 [![Build Status](https://github.com/anowacki/Geodesics.jl/workflows/CI/badge.svg)](https://github.com/anowacki/Geodesics.jl/actions)
 [![codecov](https://codecov.io/gh/anowacki/Geodesics.jl/branch/master/graph/badge.svg?token=4XkpiFaFJN)](https://codecov.io/gh/anowacki/Geodesics.jl)
 
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://anowacki.github.io/Geodesics.jl/stable)
+[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://anowacki.github.io/Geodesics.jl/dev)
+
 Calculate geodesics (great circle paths) on a flattened sphere (ellipsoid of
 rotation), using Vincenty's [1] formulae.
 
