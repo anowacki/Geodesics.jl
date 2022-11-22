@@ -1,13 +1,13 @@
 # Geodesics
 
 [![Build Status](https://github.com/anowacki/Geodesics.jl/workflows/CI/badge.svg)](https://github.com/anowacki/Geodesics.jl/actions)
-[![codecov](https://codecov.io/gh/anowacki/Geodesics.jl/branch/master/graph/badge.svg?token=4XkpiFaFJN)](https://codecov.io/gh/anowacki/Geodesics.jl)
+[![Code coverage](https://codecov.io/gh/anowacki/Geodesics.jl/branch/master/graph/badge.svg?token=4XkpiFaFJN)](https://codecov.io/gh/anowacki/Geodesics.jl)
 
-[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://anowacki.github.io/Geodesics.jl/stable)
-[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://anowacki.github.io/Geodesics.jl/dev)
+[![Documentation for latest released version](https://img.shields.io/badge/docs-stable-blue.svg)](https://anowacki.github.io/Geodesics.jl/stable)
+[![Documentation for most recent commit](https://img.shields.io/badge/docs-dev-blue.svg)](https://anowacki.github.io/Geodesics.jl/dev)
 
 Calculate geodesics (great circle paths) on a flattened sphere (ellipsoid of
-rotation), using Vincenty's [1] formulae.
+rotation).
 
 ## Install
 
@@ -24,7 +24,7 @@ julia> Pkg.pkg"add https://github.com/anowacki/Geodesics.jl"
 
 ### `Geodesics.forward`
 
-A standard forward Vincenty computation finds the end point on a flattened sphere,
+A standard forward computation finds the end point on a flattened sphere,
 given a starting location at longitude-latitude `(lon,lat)`, a forward azimuth `az`
 and a distance `dist` travelled along the surface.  You also need to specify the
 semimajor (equatorial) radius of the ellipsoid `a` and the flattening `f`.
@@ -55,7 +55,7 @@ perfectly spherical Earth, then we end up very slightly
 
 ### `Geodesics.inverse`
 
-A standard inverse Vincenty calculation finds the distance, azimuth and backazimuth
+A standard inverse calculation finds the distance, azimuth and backazimuth
 between two known points on the ellipsoid, (`lon1,lat1`) and (`lon2,lat2`).  Again,
 we need to specify the semimajor radius and flattening.
 
@@ -110,18 +110,17 @@ The full list of convenience functions:
 
 ## Choice of geodesic calculation
 
-This package so far only implements Vincenty's methods, but others are available.
+This package so far only implements Vincenty's (1975) methods, but others will
+be added in future updates.
 Pull requests to add these are welcome.
 
 ## Acknowledgments
 
-Adapted from the [GreatCircle.jl](https://github.com/acrosby/GreatCircle.jl)
+The implementation of Vincenty's method is adapted from the
+[GreatCircle.jl](https://github.com/acrosby/GreatCircle.jl)
 package, which in turn is a port of [pygc](https://github.com/axiom-data-science/pygc/).
 
 ## References
-
-Thaddeus Vincenty published the forward and inverse methods used in this package in
-the following paper:
 
 1. Vincenty, T. (1975). "Direct and Inverse Solutions of Geodesics on the Ellipsoid with
    application of nested equations" (PDF). Survey Review. XXIII (176): 88–93. [doi:10.1179/sre.1975.23.176.88](https://doi.org/10.1179/sre.1975.23.176.88).
