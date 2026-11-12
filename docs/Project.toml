@@ -1,6 +1,8 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 Geodesics = "6aaf26a4-c633-11e8-35ae-8904cb805353"
+Measurements = "eff96d63-e80a-5855-80a2-b1b0885c5ab7"
+Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 
 [compat]
-Documenter = "0.24"
+Documenter = "1"

@@ -107,6 +107,20 @@ end
 
 Create a new ellipsoid by providing the equatorial radius `a`, and
 one of: the flattening `f`; or polar radius `b`.
+
+# Example
+
+Create an ellipsoid for Mars using the values from Ardalan et al. (2010):
+
+```
+mars = Ellipsoid(a=3_395_428, b=3_377_678)
+```
+
+# References
+- Ardalan, A.A., Karimi, R. & Grafarend, E.W., 2010.
+  A New Reference Equipotential Surface, and Reference Ellipsoid for the Planet Mars.
+  Earth Moon Planet 106, 1.
+  https://doi.org/10.1007/s11038-009-9342-7
 """
 function Ellipsoid(; a=EARTH_R_MAJOR_WGS84, b=nothing, f=EARTH_F_WGS84)
     if b !== nothing

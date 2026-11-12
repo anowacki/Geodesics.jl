@@ -6,8 +6,14 @@
 Compute the flattening `f` from the equatorial radius `a`
 and the polar radius `b` of an ellipsoid of rotation whose
 symmetry axis passes through the pole.
+
+Note that this function promotes its inputs before calculating
+the flattening.
 """
-_flattening(a, b) = (a - b)/a
+function _flattening(a, b)
+    a′, b′ = promote(a, b)
+    (a′ - b′)/a′
+end
 
 """
     _polar_radius(a, f) -> b

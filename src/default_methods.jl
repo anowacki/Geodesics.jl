@@ -105,12 +105,6 @@ If `check` is `false`, then no checks are made that the inputs are correct.
 
 If no `method` is supplied, then computations are performed using Vincenty's (1975)
 method on the WGS84 ellipsoid.
-
-#### References
-
-1. Vincenty, T. (1975). "Direct and Inverse Solutions of Geodesics on the Ellipsoid
-   with application of nested equations" (PDF). Survey Review. XXIII (176): 88–93.
-   doi:10.1179/sre.1975.23.176.88
 """
 forward(lon, lat, azimuth, distance; check=true) =
     forward(DEFAULT_METHOD, lon, lat, azimuth, distance; check=check)

@@ -35,8 +35,8 @@ the azimuth, backazimuth, spherical angle and surface distance between
 two points on the ellipsoid.
 
 ### Default ellipsoid and algorithm
-By default, all of the above solve the problems using Vincenty's algorithm
-on the WGS84 ellipsoid.
+By default, all of the above solve the problems using Vincenty's (1975)
+algorithm on the WGS84 ellipsoid.
 
 
 ## Types
@@ -58,6 +58,12 @@ algorithms are available:
 
 Algorithms can either be passed an `Ellipsoid` or raw ellipsoid parameters
 upon construction.
+
+#### References
+
+* Vincenty, T. (1975). "Direct and Inverse Solutions of Geodesics on the Ellipsoid
+  with application of nested equations" (PDF). Survey Review. XXIII (176): 88–93.
+  doi:10.1179/sre.1975.23.176.88
 """
 module Geodesics
 

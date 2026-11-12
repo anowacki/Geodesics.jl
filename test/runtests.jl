@@ -5,4 +5,5 @@ using Test
     include("types.jl")
     include("vincenty.jl")
     include("haversine.jl")
+    # include("dataset.jl")
 end

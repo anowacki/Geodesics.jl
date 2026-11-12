@@ -124,6 +124,11 @@ end
 function forward(method::Vincenty{A,T}, lon, lat, azimuth, distance; check=true)::NamedTuple{(:lon,:lat,:backazimuth),Tuple{T,T,T}} where {A,T}
     check && _check_latitude(lat, false)
 
+    # Not moving anywhere. We can return the location that was passed in.
+    if iszero(distance)
+        return (lon=T(lon), lat=T(lat), backazimuth=mod2pi(T(azimuth) + π))
+    end
+
     a_units = method.ell.a
     f = method.ell.f
     b_units = method.ell._b
@@ -135,7 +140,7 @@ function forward(method::Vincenty{A,T}, lon, lat, azimuth, distance; check=true)
     # Convert to same units as A and remove units
     distance_nounit, distance_unit = _remove_units(A(distance))
 
-    # Calculations are done with Float64s internally as the tolerances are hard-wired
+    # Convert to same precision as ellipsoid
     lambda1, phi1, alpha12, s = T(lon), T(lat), T(azimuth), T(distance_nounit)
     alpha12 = mod2pi(alpha12)
 
@@ -152,11 +157,6 @@ function forward(method::Vincenty{A,T}, lon, lat, azimuth, distance; check=true)
 
     # Starting with the approximation
     sigma = s/(b*AA)
-
-    # Not moving anywhere. We can return the location that was passed in.
-    if sigma == 0
-        return (lon=lambda1, lat=phi1, backazimuth=mod2pi(alpha12 + π))
-    end
 
     last_sigma = 2*sigma + 2 # something impossible
 
@@ -226,12 +226,15 @@ function forward_angle(method::Vincenty{A,T}, lon, lat, azimuth, angular_distanc
     return (lon=L₂, lat=ϕ₂, backazimuth=mod2pi(α₂ + π))
 end
 
-function inverse(method::Vincenty{A,T}, lon1, lat1, lon2, lat2; check=true) where {A,T}
+function inverse(method::Vincenty{A,T}, lon1, lat1, lon2, lat2;
+    check=true, max_iters=100, warn=true, atol=√eps(T)
+) where {A,T}
     if check
         _check_latitude(lat1, false)
         _check_latitude(lat2, false)
     end
 
+    # Notation follows https://en.wikipedia.org/wiki/Vincenty%27s_formulae
     a_units = method.ell.a
     f = method.ell.f
     b_units = method.ell._b
@@ -255,23 +258,31 @@ function inverse(method::Vincenty{A,T}, lon1, lat1, lon2, lat2; check=true) wher
     sinU1, cosU1 = sincos(U1)
     sinU2, cosU2 = sincos(U2)
 
+    sinU1_sinU2 = sinU1*sinU2
+    cosU1_cosU2 = cosU1*cosU2
+
+    # Updated in the loop below
     lambda = lambda2 - lambda1
     last_lambda = #=-4000000.0=# T(-4000000) # an impossibe value
     omega = lambda
+
+    sin_lambda, cos_lambda = sincos(lambda)
 
     # Iterate the following equations until there is no significant change in lambda
     alpha = sigma = sin_sigma = Cos2sigma_m = cos_sigma = sin²σ =
         typemin(T)
 
+    iteration_count = 0
     while ((last_lambda < #=-3000000.0=# T(-3000000)) || (lambda != 0)) &&
-            (abs((last_lambda - lambda)/lambda) > #=1.0e-9=# √eps(T))
-        sin²σ = (cosU2*sin(lambda))^2 +
-                         ((cosU1*sinU2 - sinU1*cosU2*cos(lambda)))^2
+            (abs((last_lambda - lambda)/lambda) > #=1.0e-9=# #=√eps(T)=# atol) &&
+            iteration_count < max_iters
+        sin²σ = (cosU2*sin_lambda)^2 +
+                         ((cosU1*sinU2 - sinU1*cosU2*cos_lambda))^2
         sin_sigma = sqrt(sin²σ)
-        cos_sigma = sinU1*sinU2 + cosU1*cosU2*cos(lambda)
+        cos_sigma = sinU1_sinU2 + cosU1_cosU2*cos_lambda
         sigma = atan(sin_sigma, cos_sigma)
 
-        Sin_alpha = cosU1*cosU2*sin(lambda)/sin(sigma)
+        Sin_alpha = cosU1_cosU2*sin_lambda/sin_sigma
 
         if Sin_alpha >= 1
             Sin_alpha = one(T)
@@ -280,11 +291,22 @@ function inverse(method::Vincenty{A,T}, lon1, lat1, lon2, lat2; check=true) wher
         end
 
         alpha = asin(Sin_alpha)
-        Cos2sigma_m = cos(sigma) - 2*sinU1*sinU2/cos(alpha)^2
-        C = (f/16)*cos(alpha)^2*(4 + f*(4 - 3*cos(alpha)^2))
+        cos_alpha = cos(alpha)
+
+        Cos2sigma_m = cos_sigma - 2*sinU1_sinU2/cos_alpha^2
+        C = (f/16)*cos_alpha^2*(4 + f*(4 - 3*cos_alpha^2))
         last_lambda = lambda
-        lambda = omega + (1 - C)*f*sin(alpha)*(sigma +
+        lambda = omega + (1 - C)*f*Sin_alpha*(sigma +
             C*sin(sigma)*(Cos2sigma_m + C*cos(sigma)*(-1 + 2*Cos2sigma_m^2)))
+
+        sin_lambda, cos_lambda = sincos(lambda)
+
+        iteration_count += 1
+        # @show iteration_count alpha sigma sin_sigma Cos2sigma_m cos_sigma sin²σ lambda (last_lambda - lambda)
+    end
+
+    if iteration_count == max_iters
+        warn && @warn("maximum iterations reached in `inverse`; results may not be accurate")
     end
 
     u2 = cos(alpha)^2*(a^2 - b^2)/b^2
@@ -296,8 +318,8 @@ function inverse(method::Vincenty{A,T}, lon1, lat1, lon2, lat2; check=true) wher
         (B/6)*Cos2sigma_m*(-3 + 4*sin²σ)*(-3 + 4*Cos2sigma_m^2)))
     s = b*AA*(sigma - delta_sigma)
 
-    alpha12 = atan((cosU2*sin(lambda)), ( cosU1*sinU2 - sinU1*cosU2*cos(lambda)))
-    alpha21 = atan((cosU1*sin(lambda)), (-sinU1*cosU2 + cosU1*sinU2*cos(lambda)))
+    alpha12 = atan((cosU2*sin_lambda), ( cosU1*sinU2 - sinU1*cosU2*cos_lambda))
+    alpha21 = atan((cosU1*sin_lambda), (-sinU1*cosU2 + cosU1*sinU2*cos_lambda))
 
     alpha12 = mod2pi(alpha12)
     alpha21 = mod2pi(alpha21 + π)

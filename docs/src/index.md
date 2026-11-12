@@ -8,7 +8,7 @@ rotation).
 
 ## Install
 
-Geodesics is compatible with Julia version 1.0 upwards.  Install using:
+Geodesics is compatible with Julia version 1.6 upwards.  Install using:
 
 ```julia
 julia> import Pkg
@@ -23,5 +23,6 @@ julia> Pkg.pkg"add https://github.com/anowacki/Geodesics.jl"
 
 ## Acknowledgments
 
-Adapted from the [GreatCircle.jl](https://github.com/acrosby/GreatCircle.jl)
+The Vincenty algorithm implementation was adapted from the
+[GreatCircle.jl](https://github.com/acrosby/GreatCircle.jl)
 package, which in turn is a port of [pygc](https://github.com/axiom-data-science/pygc/).

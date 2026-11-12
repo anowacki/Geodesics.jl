@@ -58,6 +58,13 @@ Haversine(; kwargs...) =
     Haversine(Ellipsoid(; a=EARTH_R_MEAN_WGS84, f=zero(EARTH_R_MEAN_WGS84), kwargs...))
 Haversine(a) = Haversine(Ellipsoid(a, zero(a)/oneunit(a)))
 
+#=
+    High-level functions
+
+N.B.  The high-level functions are defined here because the expressions for
+the Haversine solutions give these directly.  In general, algorithms should
+only need to define `forward` and `inverse`.
+=#
 function angular_distance(::Haversine{A,T}, lon1, lat1, lon2, lat2;
     degrees::Bool=true, check::Bool=true
 ) where {A,T}
@@ -181,6 +188,12 @@ function forward(method::Haversine{A,T}, lon, lat, azimuth, distance; check=true
     end
 end
 
+#=
+    Low-level functions
+
+Unusually, these are defined in terms of the high-level functions
+because those are the expressions for the Haversine algorithm.
+=#
 function forward_angle(method::Haversine{A,T}, lon, lat, azimuth, angular_distance;
     check=true
 ) where {A,T}

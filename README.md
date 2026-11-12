@@ -11,7 +11,7 @@ rotation).
 
 ## Install
 
-Geodesics is compatible with Julia version 1.0 upwards.  Install using:
+Geodesics is compatible with Julia version 1.6 upwards.  Install using:
 
 ```julia
 julia> import Pkg
@@ -110,8 +110,8 @@ The full list of convenience functions:
 
 ## Choice of geodesic calculation
 
-This package so far only implements Vincenty's (1975) methods, but others will
-be added in future updates.
+This package so far only implements Haversine and Vincenty's (1975)
+methods, but others will be added in future updates.
 Pull requests to add these are welcome.
 
 ## Acknowledgments
